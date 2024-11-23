@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct {
+    char account_number[20];
+    char owner[50];
+    double balance;
+} Account;
+
+void create_account(Account** accounts, int* count) {
+    Account new_account;
+    printf("계좌 번호 입력: ");
+    scanf("%s", new_account.account_number);
+    printf("소유자 이름 입력: ");
+    scanf("%s", new_account.owner);
+    new_account.balance = 0.0;
+
+    (*accounts) = realloc(*accounts, (*count + 1) * sizeof(Account));
+    (*accounts)[(*count)++] = new_account;
+
+    printf("계좌가 생성되었습니다.\n");
+}
+
+void deposit(Account* accounts, int count) {
+    char account_number[20];
+    double amount;
+    printf("입금할 계좌 번호 입력: ");
+    scanf("%s", account_number);
+
+    for (int i = 0; i < count; i++) {
+        if (strcmp(accounts[i].account_number, account_number) == 0) {
+            printf("입금할 금액 입력: ");
+            scanf("%lf", &amount);
+            accounts[i].balance += amount;
+            printf("입금 완료! 현재 잔액: %.2f\n", accounts[i].balance);
+            return;
+        }
+    }
+    printf("계좌를 찾을 수 없습니다.\n");
+}
+
+// 잔액 확인 및 출금 기능 추가 가능
